@@ -1,0 +1,27 @@
+@mixin hook-responsive($selector, $lists) {
+  @each $responsiveName, $responsiveValue in $responsives {
+    @media #{$responsiveValue} {
+      .#{$responsiveName}\:#{$selector} {
+        @each $property, $value in $lists {
+          #{$property}: $value;
+        }
+      }
+    }
+  }
+}
+
+@mixin hook-hover($selector, $lists) {
+  .hove\:#{$selector}:hover{
+    @each $property, $value in $lists {
+      #{$property}: $value;
+    }
+  }
+}
+
+@mixin hook-focus($selector, $lists) {
+  .focus\:#{$selector}:focus{
+    @each $property, $value in $lists {
+      #{$property}: $value;
+    }
+  }
+}

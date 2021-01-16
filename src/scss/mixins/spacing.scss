@@ -1,0 +1,61 @@
+@use "sass:map";
+@mixin space($name, $value) {
+  @each $selector, $property in ("m": "margin", "p": "padding") {
+    @each $selectorPosition, $propertiesPositions in $positon-shorthand {
+      $lists: ();
+      
+      .#{$selector}#{$selectorPosition}-#{$name} {
+        @each $propertyPosition in $propertiesPositions {
+          #{$property}-#{$propertyPosition}: $value;
+
+          $lists: map.merge(
+            $lists,
+            (#{$property}-#{$propertyPosition}: $value)
+          );
+        }
+      }
+
+      @if $useResponsive {
+        @include hook-responsive(#{$selector}#{$selectorPosition}-#{$name}, $lists);
+      }
+
+      @if $selector == "m" {
+        $lists: ();
+
+        .-#{$selector}#{$selectorPosition}-#{$name} {
+          @each $propertyPosition in $propertiesPositions {
+            #{$property}-#{$propertyPosition}: $value * -1;
+
+            $lists: map.merge(
+              $lists,
+              (#{$property}-#{$propertyPosition}: $value * -1)
+            );
+          }
+        }
+
+        @if $useResponsive {
+          @include hook-responsive(
+            -#{$selector}#{$selectorPosition}-#{$name},
+            $lists
+          );
+        }
+      }
+    }
+  }
+
+  .m-#{$name} {
+    margin: $value;
+  }
+  .-m-#{$name} {
+    margin: $value * -1;
+  }
+  .p-#{$name} {
+    padding: $value;
+  }
+  
+  @if $useResponsive {
+    @include hook-responsive('m-#{$name}', (margin: $value));
+    @include hook-responsive('-m-#{$name}', (margin: $value * -1));
+    @include hook-responsive('p-#{$name}', (padding: $value));
+  }
+}
