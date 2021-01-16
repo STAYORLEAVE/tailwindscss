@@ -5,9 +5,10 @@
   "license": "MIT",
   "scripts": {
     "watch": "sass --watch src/scss/index.scss dist/index.css",
-    "build": ""
+    "build": "sass src/scss/index.scss dist/index.css && cleancss -o dist/index.min.css dist/index.css --compatibility ie9"
   },
   "devDependencies": {
+    "clean-css-cli": "^4.3.0",
     "sass": "^1.32.4"
   }
 }
